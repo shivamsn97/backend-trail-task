@@ -70,6 +70,7 @@ class Submission:
         cond1, cond2 = True, True
         if title:
             # cond1 = fuzz.partial_ratio(title.lower(), self.title.lower()) > 80
+            # for now, we'll just do a simple substring match
             cond1 = title.lower() in self.title.lower()
         if author:
             cond2 = author.lower() in self.author.lower()
@@ -101,5 +102,6 @@ class InMemoryDB:
     def get_submission(self, id):
         if id >= self.len:
             return None
+        # since we insert at the beginning, and id of a submission is the length of the list at the time of insertion, we can subtract the id from current total length to get the index
         return self.submissions[self.len - id - 1]
         
